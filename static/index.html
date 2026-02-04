@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html class="" lang="nl">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>My Vlaamse Buddy - Recording & Feedback</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2bee79",
+                        "primary-dark": "#1fa855",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans"]
+                    },
+                    borderRadius: { "DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        body {
+            min-height: 100dvh;
+        }
+
+        .strikethrough {
+            text-decoration: line-through;
+            text-decoration-color: rgba(248, 113, 113, 0.6);
+            text-decoration-thickness: 2px;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-white font-display text-slate-900 overflow-x-hidden min-h-screen relative flex flex-col selection:bg-primary/30 selection:text-slate-900">
+    <!-- Header -->
+    <header class="flex items-center p-4 pb-2 justify-between bg-transparent z-10 shrink-0">
+        <button
+            class="text-slate-900 flex size-12 shrink-0 items-center justify-center rounded-full hover:bg-slate-100 transition-colors">
+            <span class="material-symbols-outlined" style="font-size: 24px;">arrow_back</span>
+        </button>
+        <h2 class="text-slate-900 text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center pr-12">
+            Opname & Feedback
+        </h2>
+    </header>
+
+    <main class="flex-1 flex flex-col w-full relative z-0">
+        <!-- Mic Section -->
+        <div class="flex flex-col items-center justify-center pt-6 pb-12 px-6 shrink-0 relative">
+            <h1 id="status-text"
+                class="text-slate-900 tracking-light text-[28px] font-bold leading-tight text-center mb-10 drop-shadow-sm">
+                Tik om te spreken
+            </h1>
+            <div class="relative flex items-center justify-center" id="mic-container">
+                <div id="mic-pulse" class="absolute size-56 rounded-full bg-primary/20 hidden"></div>
+                <div class="absolute size-44 rounded-full bg-primary/30"></div>
+                <button id="mic-btn"
+                    class="relative z-10 flex size-28 cursor-pointer items-center justify-center rounded-full bg-primary text-slate-900 shadow-[0_0_50px_rgba(43,238,121,0.3)] hover:shadow-[0_0_60px_rgba(43,238,121,0.5)] hover:scale-105 transition-all duration-300 active:scale-95 group">
+                    <span class="material-symbols-outlined transition-transform group-hover:rotate-12"
+                        style="font-size: 48px; font-variation-settings: 'FILL' 1;">mic</span>
+                </button>
+            </div>
+            <p id="sub-status" class="text-slate-400 mt-8 text-sm font-medium tracking-wide uppercase">Klaar voor opname
+            </p>
+        </div>
+
+        <!-- Feedback Panel -->
+        <div
+            class="flex-1 w-full bg-white rounded-t-[2.5rem] shadow-[0_-8px_30px_rgba(0,0,0,0.06)] overflow-hidden flex flex-col border-t border-slate-100 relative z-10">
+            <div class="w-full flex justify-center pt-4 pb-2 shrink-0">
+                <div class="w-12 h-1.5 rounded-full bg-slate-200"></div>
+            </div>
+
+            <div id="feedback-container" class="flex-1 overflow-y-auto p-6 pb-28 no-scrollbar">
+                <!-- Data will be injected here by script.js -->
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-slate-900 text-xl font-bold tracking-tight">Analyse & Feedback</h3>
+                    <div class="flex items-center gap-1.5 px-3 py-1 bg-slate-50 rounded-full border border-slate-100">
+                        <span class="material-symbols-outlined text-slate-300" style="font-size: 16px;">pending</span>
+                        <span class="text-xs font-bold text-slate-400">Wachtend...</span>
+                    </div>
+                </div>
+
+                <div class="text-center text-slate-300 mt-10">
+                    <span class="material-symbols-outlined text-5xl mb-3 opacity-20">graphic_eq</span>
+                    <p class="font-medium">Wachtend op opname...</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bottom Actions -->
+    <div class="fixed bottom-6 left-0 right-0 flex justify-center px-4 z-30 pointer-events-none">
+        <div class="flex gap-3 pointer-events-auto">
+            <button onclick="window.location.reload()"
+                class="bg-white text-slate-700 border border-slate-200 h-12 w-12 rounded-full flex items-center justify-center shadow-lg active:scale-95 transition-transform hover:bg-slate-50">
+                <span class="material-symbols-outlined">restart_alt</span>
+            </button>
+            <button onclick="window.location.reload()"
+                class="bg-slate-900 text-white font-bold h-12 px-8 rounded-full flex items-center gap-2 shadow-lg hover:bg-slate-800 active:scale-95 transition-all">
+                <span>Volgende Oefening</span>
+                <span class="material-symbols-outlined" style="font-size: 20px;">arrow_forward</span>
+            </button>
+        </div>
+    </div>
+
+    <script src="script.js?v=4.0"></script>
+</body>
+
+</html>

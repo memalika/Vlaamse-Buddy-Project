@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: vlaamse-buddy
+    env: docker
+    region: frankfurt # Closest region for Belgium
+    plan: free
+    envVars:
+      - key: GOOGLE_API_KEY
+        sync: false
