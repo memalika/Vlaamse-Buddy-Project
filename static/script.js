@@ -248,23 +248,60 @@ function getDiffHtml(user, correct) {
     return { userHtml: uHtml, correctHtml: cHtml };
 }
 
+let availableVoices = [];
+function loadVoices() {
+    availableVoices = window.speechSynthesis.getVoices();
+}
+if (window.speechSynthesis) {
+    window.speechSynthesis.onvoiceschanged = loadVoices;
+    loadVoices();
+}
+
 function speak(text) {
     if (!window.speechSynthesis) return;
     window.speechSynthesis.cancel();
+    
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'nl-BE';
-
-    const voices = window.speechSynthesis.getVoices();
-    const flemishVoice = voices.find(v => v.lang.includes('BE') || v.name.includes('Belg') || v.name.includes('Vlaams'));
-    const dutchVoice = voices.find(v => v.lang.includes('nl'));
-
-    if (flemishVoice) utterance.voice = flemishVoice;
-    else if (dutchVoice) utterance.voice = dutchVoice;
-
+    utterance.lang = 'nl-BE'; 
+    
+    let voices = window.speechSynthesis.getVoices();
+    if (voices.length === 0) voices = availableVoices;
+    
+    // 1. Try to find a precise Flemish (Belgian Dutch) voice
+    let selectedVoice = voices.find(v => 
+        v.lang.toLowerCase() === 'nl-be' || 
+        v.lang.toLowerCase() === 'nl_be' || 
+        v.name.toLowerCase().includes('belg') || 
+        v.name.toLowerCase().includes('vlaam') ||
+        v.name.toLowerCase().includes('ellen') || // Mac/iOS Flemish
+        v.name.toLowerCase().includes('xander')   // Mac/iOS Flemish
+    );
+    
+    // 2. Fallback to any Dutch voice
+    if (!selectedVoice) {
+        selectedVoice = voices.find(v => 
+            v.lang.toLowerCase().startsWith('nl') || 
+            v.name.toLowerCase().includes('dutch') || 
+            v.name.toLowerCase().includes('nederland') ||
+            v.name.toLowerCase().includes('laura') || // Mac/iOS Dutch
+            v.name.toLowerCase().includes('xenia')    // Mac/iOS Dutch
+        );
+    }
+    
+    if (selectedVoice) {
+        utterance.voice = selectedVoice;
+        utterance.lang = selectedVoice.lang; // Force the engine to use this voice's language model
+    }
+    
+    // Slightly slower rate often sounds more natural on mobile TTS
+    utterance.rate = 0.95;
+    
+    utterance.onerror = (e) => console.error("Speech Synthesis Error:", e);
+    
     window.speechSynthesis.speak(utterance);
+    
+    // iOS Safari workaround: sometimes it pauses indefinitely
+    if (window.speechSynthesis.paused) {
+        window.speechSynthesis.resume();
+    }
 }
-
-// Pre-load voices
-window.speechSynthesis.onvoiceschanged = () => {
-    window.speechSynthesis.getVoices();
-};

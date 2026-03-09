@@ -53,14 +53,14 @@
     </style>
 </head>
 
-<body
-    class="bg-white font-display text-slate-900 overflow-x-hidden min-h-screen relative flex flex-col selection:bg-primary/30 selection:text-slate-900">
-    <!-- Header -->
-    <header class="flex items-center p-4 pb-2 justify-between bg-transparent z-10 shrink-0">
-        <button
-            class="text-slate-900 flex size-12 shrink-0 items-center justify-center rounded-full hover:bg-slate-100 transition-colors">
-            <span class="material-symbols-outlined" style="font-size: 24px;">arrow_back</span>
-        </button>
+<body class="bg-slate-50 font-display text-slate-900 overflow-x-hidden min-h-screen relative flex flex-col md:items-center md:justify-center md:py-8 selection:bg-primary/30 selection:text-slate-900">
+    <div class="w-full max-w-md bg-white min-h-[100dvh] md:min-h-0 md:h-[90vh] md:max-h-[900px] md:rounded-[2.5rem] md:shadow-2xl overflow-hidden relative flex flex-col mx-auto flex-1">
+        <!-- Header -->
+        <header class="flex items-center p-4 pb-2 justify-between bg-transparent z-10 shrink-0">
+            <button
+                class="text-slate-900 flex size-12 shrink-0 items-center justify-center rounded-full hover:bg-slate-100 transition-colors">
+                <span class="material-symbols-outlined" style="font-size: 24px;">arrow_back</span>
+            </button>
         <h2 class="text-slate-900 text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center pr-12">
             Opname & Feedback
         </h2>
@@ -112,7 +112,7 @@
     </main>
 
     <!-- Bottom Actions -->
-    <div class="fixed bottom-6 left-0 right-0 flex justify-center px-4 z-30 pointer-events-none">
+    <div class="absolute bottom-6 left-0 right-0 flex justify-center px-4 z-30 pointer-events-none">
         <div class="flex gap-3 pointer-events-auto">
             <button onclick="window.location.reload()"
                 class="bg-white text-slate-700 border border-slate-200 h-12 w-12 rounded-full flex items-center justify-center shadow-lg active:scale-95 transition-transform hover:bg-slate-50">
@@ -125,6 +125,8 @@
             </button>
         </div>
     </div>
+
+    </div> <!-- End Container -->
 
     <script src="script.js?v=4.0"></script>
 </body>
